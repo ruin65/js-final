@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.js with External API</title>
+
+    <style>
+      body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+      #audioControl {
+          position: fixed;
+          top: 0px;
+          right: 10px;
+          z-index: 100; /* 确保音频控件在画布之上 */
+      }
+
+      #areaLocationInput {
+          z-index: 100; /* 确保音频控件在画布之上 */
+      }
+      #searchButton {
+          z-index: 100; /* 确保音频控件在画布之上 */
+      }
+      canvas { display: block; }
+  </style>
+
+
+    <!-- 引入 p5.js 库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+
+    <input type="text" id="areaLocationInput" placeholder="Enter area/location, e.g., America/New_York">
+    <button id="searchButton">Search Time</button>
+    <div id="timeDisplay" style="font-weight: bold; position: fixed; top: 85%; left: 50%; z-index: 100; transform: translate(-50%, -50%); font-size: 24px; color: black;">
+        Time will be displayed here.
+    </div>
+
+
+    <audio id="audioControl" controls>
+      <source src="second.mp3" type="audio/mpeg">
+  </audio>
+
+
+    <script src="index.js"></script>
+    
+  
+
+
+
+    <!-- p5.js-->
+    <script>
+let a = 100;
+let b = 250;
+let c = 80;
+let width1 = a; // 设置第一个圆的直径
+let width2 = b; // 设置第二个圆的直径
+let width3 = c; // 设置第三个圆的直径
+let color1, color2, color3, color4,color5,color6;
+let angle1 = 0;
+let angle2 = 0;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  color1 = color(197, 57, 49, 150);
+  color2 = color(197, 57, 49, 0);
+  color3 = color(197, 57, 49, 50);
+  color4 = color(197, 57, 49, 150);
+  color5 = color(197, 57, 49, 100);
+  color6 = color(197, 57, 49, 40);
+}
+
+function draw() {
+  background(236, 233, 226);
+  
+ //---circle1---
+// 画大圆圈
+  noFill();
+  stroke(0);
+  strokeWeight(5);
+  stroke(197, 57, 49);
+  ellipse(550, height / 2-25, a, a);
+
+  // 画渐变的两个小圆圈
+  let gradientColor1 = lerpColor(color1, color2, mouseX / width);
+  strokeWeight(25);
+  stroke(gradientColor1);
+  ellipse(550, height / 2-25, width1 + 25, width1 + 25);
+
+  // 画多个圆圈
+  noFill();
+  stroke(197, 57, 49, 70);
+  for (let i = 50; i <= 100; i += 10) {
+    ellipse(550, height / 2-25, a + i, a + i);
+  }
+  for (let i = 15; i <= 50; i += 20) {
+    ellipse(550, height / 2-25, a - i, a - i);
+  }
+
+  // 旋转的小圆圈
+  drawRotatingCircle(angle1, 30);
+  drawRotatingCircle(angle2, 20);
+
+ // 控制旋转速度
+angle1 += TWO_PI / 3600;  // 每帧增加的角度，使得每秒旋转一圈
+angle2 += TWO_PI / 60;  // 同上
+
+}
+
+// 绘制旋转的小圆圈
+function drawRotatingCircle(angle, diameter) {
+  let x = 550 + cos(angle) * (a / 2);
+  let y = height / 2-25 + sin(angle) * (a / 2);
+  noStroke();
+  fill(225, 253, 246);
+  ellipse(x, y, diameter, diameter);
+  
+
+
+  
+  
+
+ //---circle2---
+  // 画渐变的两个小圆圈
+  let gradientColor2 = lerpColor(color3, color4, mouseX / width);
+  strokeWeight(25);
+  stroke(gradientColor2);
+  ellipse(750, height / 2-25, width1 + 25, width1 + 25);
+
+  // 画多个圆圈
+  noFill();
+  stroke(197, 57, 49, 15);
+  for (let i = 30; i <= 80; i += 10) {
+    ellipse(750, height / 2-25, b + i, b + i);
+  }
+  for (let i = 30; i <= 200; i += 15) {
+    ellipse(750, height / 2-25, b - i, b - i);
+  }
+
+
+
+
+
+//---circle3---
+ // 画大圆圈
+  noFill();
+  stroke(0);
+  strokeWeight(3);
+  stroke(197, 57, 49,100);
+  ellipse(900, height / 2-25, c+80, c+80);
+  strokeWeight(5);
+  stroke(197, 57, 49);
+  ellipse(900, height / 2-25, c-20, c-20);
+  
+  // 画渐变的两个小圆圈
+  let gradientColor3 = lerpColor(color5, color6, mouseX / width);
+
+  // 画多个圆圈
+  noFill();
+  strokeWeight(4);
+  stroke(gradientColor3);
+  for (let i = 5; i <= 80; i += 10) {
+    ellipse(900, height / 2-25, c + i, c + i);
+    ellipse(900, height / 2-25, c - i, c - i);
+  }
+
+  
+  
+  
+
+  
+  
+   //---circle4---
+  // 画大圆圈
+  noFill();
+  stroke(gradientColor3);
+  strokeWeight(5);
+  stroke(197, 57, 49);
+  ellipse(550, height / 2-120-25, c-50, c-50);
+  strokeWeight(2);
+  stroke(197, 57, 49,60);
+  ellipse(550, height / 2-120-25, c-40, c-40);
+  ellipse(550, height / 2-120-25, c+20, c+20);
+
+  strokeWeight(20);
+  stroke(197, 57, 49,30);
+  ellipse(550, height / 2-120-25, c, c);
+  
+ //---circle5---
+  // 画大圆圈
+  strokeWeight(25);
+  stroke(197, 57, 49);
+  ellipse(550, height / 2+120-25, c-30, c-30);
+
+}
+
+    </script>
+</body>
+</html>
